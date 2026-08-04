@@ -1,76 +1,128 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 380" width="1400" height="380">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 400" width="1400" height="400">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fdf4ff">
-        <animate attributeName="stop-color" values="#fdf4ff;#f0fbfa;#fff7ed;#fdf4ff" dur="14s" repeatCount="indefinite"/>
+        <animate attributeName="stop-color" values="#fdf4ff;#f0fbfa;#fff7ed;#fdf4ff" dur="16s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#f5f7ff">
+        <animate attributeName="stop-color" values="#f5f7ff;#fef2f8;#f0fdfa;#f5f7ff" dur="16s" repeatCount="indefinite"/>
       </stop>
       <stop offset="100%" stop-color="#eff6ff">
-        <animate attributeName="stop-color" values="#eff6ff;#fdf2f8;#f0fdfa;#eff6ff" dur="14s" repeatCount="indefinite"/>
+        <animate attributeName="stop-color" values="#eff6ff;#fdf2f8;#fff7ed;#eff6ff" dur="16s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="45%" r="65%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+    <radialGradient id="glow" cx="50%" cy="42%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="logoGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#ff9472"/>
+      <stop offset="55%" stop-color="#ff6f9c"/>
+      <stop offset="100%" stop-color="#e8508a"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e8508a"/>
+      <stop offset="100%" stop-color="#ff9472"/>
+    </linearGradient>
+    <radialGradient id="logoPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6f9c" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ff6f9c" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#94a3b8" opacity="0.16"/>
+    </pattern>
     <clipPath id="frame">
-      <rect x="0" y="0" width="1400" height="380" rx="28"/>
+      <rect x="0" y="0" width="1400" height="400" rx="30"/>
     </clipPath>
   </defs>
 
   <g clip-path="url(#frame)">
-    <rect x="0" y="0" width="1400" height="380" fill="url(#bgGrad)"/>
-    <rect x="0" y="0" width="1400" height="380" fill="url(#glow)"/>
+    <rect x="0" y="0" width="1400" height="400" fill="url(#bgGrad)"/>
+    <rect x="0" y="0" width="1400" height="400" fill="url(#dots)"/>
+    <rect x="0" y="0" width="1400" height="400" fill="url(#glow)"/>
 
-    <g opacity="0.85">
-      <line x1="245" y1="120" x2="430" y2="190" stroke="#cbd5e1" stroke-width="1.5"/>
-      <line x1="430" y1="190" x2="360" y2="290" stroke="#cbd5e1" stroke-width="1.5"/>
-      <line x1="960" y1="110" x2="1145" y2="175" stroke="#cbd5e1" stroke-width="1.5"/>
-      <line x1="1145" y1="175" x2="1080" y2="280" stroke="#cbd5e1" stroke-width="1.5"/>
+    <g opacity="0.8">
+      <line x1="980" y1="90" x2="1140" y2="150" stroke="#cbd5e1" stroke-width="1.4"/>
+      <line x1="1140" y1="150" x2="1080" y2="255" stroke="#cbd5e1" stroke-width="1.4"/>
+      <line x1="1080" y1="255" x2="1220" y2="300" stroke="#cbd5e1" stroke-width="1.4"/>
+      <line x1="900" y1="290" x2="1080" y2="255" stroke="#cbd5e1" stroke-width="1.4"/>
     </g>
 
     <g>
-      <circle cx="245" cy="120" r="16" fill="#FF6B6B" opacity="0.85">
-        <animate attributeName="cy" values="120;100;120" dur="6s" repeatCount="indefinite"/>
+      <circle cx="980" cy="90" r="11" fill="#F2A93B" opacity="0.85">
+        <animate attributeName="cy" values="90;70;90" dur="6.4s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="430" cy="190" r="10" fill="#4ECDC4" opacity="0.85">
-        <animate attributeName="cy" values="190;212;190" dur="7.5s" repeatCount="indefinite"/>
+      <circle cx="1140" cy="150" r="15" fill="#FF6B6B" opacity="0.85">
+        <animate attributeName="cy" values="150;128;150" dur="7.6s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="360" cy="290" r="13" fill="#F2A93B" opacity="0.85">
-        <animate attributeName="cy" values="290;268;290" dur="5.2s" repeatCount="indefinite"/>
+      <circle cx="1080" cy="255" r="9" fill="#4ECDC4" opacity="0.85">
+        <animate attributeName="cy" values="255;276;255" dur="5.5s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="960" cy="110" r="12" fill="#9B5DE5" opacity="0.85">
-        <animate attributeName="cy" values="110;134;110" dur="6.8s" repeatCount="indefinite"/>
+      <circle cx="1220" cy="300" r="13" fill="#9B5DE5" opacity="0.85">
+        <animate attributeName="cy" values="300;280;300" dur="8.2s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="1145" cy="175" r="17" fill="#FF6B6B" opacity="0.85">
-        <animate attributeName="cy" values="175;152;175" dur="8.1s" repeatCount="indefinite"/>
+      <circle cx="900" cy="290" r="8" fill="#F2A93B" opacity="0.7">
+        <animate attributeName="cy" values="290;308;290" dur="6.9s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="1080" cy="280" r="9" fill="#4ECDC4" opacity="0.85">
-        <animate attributeName="cy" values="280;302;280" dur="5.9s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="120" cy="300" r="7" fill="#9B5DE5" opacity="0.6">
-        <animate attributeName="cy" values="300;280;300" dur="6.4s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="1280" cy="90" r="8" fill="#F2A93B" opacity="0.6">
-        <animate attributeName="cy" values="90;112;90" dur="7.1s" repeatCount="indefinite"/>
+      <circle cx="1310" cy="200" r="6" fill="#4ECDC4" opacity="0.6">
+        <animate attributeName="cy" values="200;218;200" dur="5.8s" repeatCount="indefinite"/>
       </circle>
     </g>
 
-    <g text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">
-      <text x="700" y="195" font-size="76" font-weight="800" fill="#0f172a" letter-spacing="4">
+    <g transform="translate(230,196)">
+      <circle r="128" fill="none" stroke="#f4b6c2" stroke-width="1.4" stroke-dasharray="2 10" opacity="0.7">
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="40s" repeatCount="indefinite"/>
+      </circle>
+
+      <circle r="98" fill="url(#logoPulse)">
+        <animate attributeName="r" values="90;104;90" dur="4.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <circle cx="230" cy="196" r="6" fill="#FF6B6B" transform="translate(-230,-196)">
+        <animateMotion dur="11s" repeatCount="indefinite" path="M230,68 A128,128 0 1,1 229.9,68"/>
+      </circle>
+      <circle cx="230" cy="196" r="4.5" fill="#4ECDC4" transform="translate(-230,-196)">
+        <animateMotion dur="11s" begin="-5.5s" repeatCount="indefinite" path="M230,68 A128,128 0 1,1 229.9,68"/>
+      </circle>
+
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-9; 0,0" dur="5s" repeatCount="indefinite"/>
+        <polygon points="0,-85 73.6,-42.5 73.6,42.5 0,85 -73.6,42.5 -73.6,-42.5" fill="url(#logoGrad)"/>
+        <polygon points="0,-85 73.6,-42.5 73.6,42.5 0,85 -73.6,42.5 -73.6,-42.5" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2"/>
+
+        <g transform="translate(-1,-2)">
+          <rect x="-23" y="-29" width="46" height="58" rx="6" fill="#ffffff" opacity="0.96"/>
+          <path d="M 9 -29 L 23 -29 L 23 -15 Z" fill="#ffc9d6"/>
+          <line x1="-13" y1="-8" x2="13" y2="-8" stroke="#f3a6bc" stroke-width="3.4" stroke-linecap="round"/>
+          <line x1="-13" y1="3" x2="13" y2="3" stroke="#f3a6bc" stroke-width="3.4" stroke-linecap="round"/>
+          <line x1="-13" y1="14" x2="6" y2="14" stroke="#f3a6bc" stroke-width="3.4" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+
+    <g font-family="Segoe UI, Arial, sans-serif">
+      <text x="378" y="182" font-size="66" font-weight="800" fill="url(#titleGrad)" letter-spacing="3">
         RISETKU
-        <animate attributeName="opacity" values="0.92;1;0.92" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.94;1;0.94" dur="4s" repeatCount="indefinite"/>
       </text>
-      <text x="700" y="240" font-size="20" font-weight="600" fill="#475569" letter-spacing="1">
+      <text x="380" y="222" font-size="19" font-weight="600" fill="#475569" letter-spacing="0.5">
         Skin Sagging Literature Visual Analytics
       </text>
+      <text x="380" y="253" font-size="13.5" font-weight="500" fill="#94a3b8">
+        Thematic mapping, treatment pathways, and publication trends
+      </text>
     </g>
 
-    <g transform="translate(0,330)">
-      <path d="M -100 20 Q 100 -10 300 20 T 700 20 T 1100 20 T 1500 20" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.35">
+    <g transform="translate(0,340)">
+      <path d="M -100 24 Q 100 -8 300 24 T 700 24 T 1100 24 T 1500 24" fill="none" stroke="#FF6B6B" stroke-width="2.2" opacity="0.4">
         <animateTransform attributeName="transform" type="translate" values="-40 0; 0 0; -40 0" dur="9s" repeatCount="indefinite"/>
       </path>
-      <path d="M -100 32 Q 100 8 300 32 T 700 32 T 1100 32 T 1500 32" fill="none" stroke="#4ECDC4" stroke-width="2" opacity="0.35">
+      <path d="M -100 36 Q 100 8 300 36 T 700 36 T 1100 36 T 1500 36" fill="none" stroke="#4ECDC4" stroke-width="2.2" opacity="0.4">
         <animateTransform attributeName="transform" type="translate" values="0 0; -40 0; 0 0" dur="11s" repeatCount="indefinite"/>
+      </path>
+      <path d="M -100 48 Q 100 24 300 48 T 700 48 T 1100 48 T 1500 48" fill="none" stroke="#9B5DE5" stroke-width="2" opacity="0.3">
+        <animateTransform attributeName="transform" type="translate" values="-25 0; 5 0; -25 0" dur="13s" repeatCount="indefinite"/>
       </path>
     </g>
   </g>
