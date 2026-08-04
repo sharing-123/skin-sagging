@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="figures/thematic_map.png" width="720" alt="Thematic map of skin sagging research clusters">
-
-# Skin Sagging Literature Visual Analytics
+<img src="figures/banner.svg" width="900" alt="Risetku, a visual analytics workspace for skin sagging literature">
 
 *A visual analytics workspace for the scoping review of skin laxity mechanisms and non‑invasive aesthetic technologies*
 
