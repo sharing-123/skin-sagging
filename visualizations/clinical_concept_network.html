@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Concept Network for Skin Sagging and Facial Rejuvenation</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcfcfc;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #chart-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #right-sidebar {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 10;
+        }
+
+        .info-card {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            color: #2c3e50;
+        }
+
+        .info-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 13px;
+            font-weight: 800;
+            color: #1a252f;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .legend-line {
+            height: 3px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            margin-top: 4px;
+        }
+
+        .metrics-table th {
+            text-align: left;
+            padding-bottom: 6px;
+            color: #718096;
+            font-weight: 600;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .metrics-table td {
+            padding: 5px 0;
+            color: #2d3748;
+        }
+
+        .metrics-table tr:not(:last-child) td {
+            border-bottom: 1px dashed #f0f0f0;
+        }
+
+        #summary-box p {
+            margin: 0;
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: #4a5568;
+            text-align: justify;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .halo-text {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 6px;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .front-text {
+            fill: #2d3436;
+            font-weight: 600;
+        }
+
+        .node-circle {
+            stroke: #ffffff;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chart-container"></div>
+
+    <div id="right-sidebar">
+
+        <div class="info-card">
+            <h3><span>Network Legend</span></h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #F9A03F;"></span> Demographics
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #E74C3C;"></span> Sagging Path
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #3498DB;"></span> Clinical Care
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #2ECC71;"></span> Home Devices
+                </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: #718096; border-top: 1px solid #edf2f7; padding-top: 8px;">
+                Bubble size denotes occurrence frequency. Line thickness denotes co-occurrence link strength.
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3><span>Top Topic Network Metrics</span></h3>
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Topic Node</th>
+                        <th title="Degree Centrality">Degree</th>
+                        <th title="Betweenness Centrality">Betw</th>
+                        <th title="Closeness Centrality">Clos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Skin Sagging</strong></td>
+                        <td>0.186</td>
+                        <td>0.411</td>
+                        <td>0.394</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Collagen Depletion</strong></td>
+                        <td>0.116</td>
+                        <td>0.352</td>
+                        <td>0.341</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Face Lifting</strong></td>
+                        <td>0.140</td>
+                        <td>0.253</td>
+                        <td>0.350</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Home Devices</strong></td>
+                        <td>0.116</td>
+                        <td>0.234</td>
+                        <td>0.316</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-card" id="summary-box">
+            <h3><span>Key Insights</span></h3>
+            <p>
+                Indonesian youth prioritize early preventive care. UV exposure and oxidative stress drive collagen loss and SMAS weakening causing skin sagging. Clinical treatments like HIFU and radiofrequency provide deep structural lifting. For daily maintenance, home EMS and thermal heat devices activate muscles and boost circulation. This combined approach supports long term face sculpting.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        const dataset = {
+            nodes: [
+                { id: "Treatment Trends", group: 1, size: 45 },
+                { id: "Preventive Care", group: 1, size: 35 },
+                { id: "Gen Z Focus", group: 1, size: 28 },
+                { id: "Millennials", group: 1, size: 30 },
+                { id: "Early Anti Aging", group: 1, size: 32 },
+                { id: "Indonesian Demographics", group: 1, size: 38 },
+                { id: "Skin Barrier", group: 1, size: 25 },
+                { id: "Urban Pollution", group: 1, size: 22 },
+                { id: "Affordable Care", group: 1, size: 20 },
+                { id: "Routine Maintenance", group: 1, size: 24 },
+
+                { id: "Skin Sagging", group: 2, size: 50 },
+                { id: "SMAS Weakening", group: 2, size: 42 },
+                { id: "Collagen Depletion", group: 2, size: 38 },
+                { id: "Elastin Loss", group: 2, size: 35 },
+                { id: "Photoaging", group: 2, size: 30 },
+                { id: "Fat Pad Atrophy", group: 2, size: 28 },
+                { id: "Bone Resorption", group: 2, size: 24 },
+                { id: "Oxidative Stress", group: 2, size: 26 },
+                { id: "UV Exposure", group: 2, size: 28 },
+                { id: "Glycation", group: 2, size: 20 },
+                { id: "Gravity Impact", group: 2, size: 22 },
+
+                { id: "Clinical Treatments", group: 3, size: 48 },
+                { id: "HIFU", group: 3, size: 40 },
+                { id: "Radiofrequency", group: 3, size: 38 },
+                { id: "Thread Lift", group: 3, size: 35 },
+                { id: "Face Lifting", group: 3, size: 42 },
+                { id: "Botulinum Toxin", group: 3, size: 28 },
+                { id: "Dermal Fillers", group: 3, size: 30 },
+                { id: "Retinoids", group: 3, size: 26 },
+                { id: "Peptides", group: 3, size: 25 },
+                { id: "Microneedling", group: 3, size: 22 },
+                { id: "Collagen Stimulators", group: 3, size: 28 },
+                { id: "Hyaluronic Acid", group: 3, size: 24 },
+
+                { id: "Home Devices", group: 4, size: 45 },
+                { id: "Face Sculpting", group: 4, size: 42 },
+                { id: "EMS Technology", group: 4, size: 38 },
+                { id: "Thermal Heat 38-42C", group: 4, size: 36 },
+                { id: "Muscle Toning", group: 4, size: 34 },
+                { id: "Fibroblast Activation", group: 4, size: 30 },
+                { id: "ATP Production", group: 4, size: 25 },
+                { id: "Blood Circulation", group: 4, size: 28 },
+                { id: "Neocollagenesis", group: 4, size: 26 },
+                { id: "Lymphatic Drainage", group: 4, size: 24 },
+                { id: "Daily Sculpting", group: 4, size: 22 }
+            ],
+            links: [
+                { source: "Treatment Trends", target: "Indonesian Demographics", weight: 9 },
+                { source: "Treatment Trends", target: "Preventive Care", weight: 8 },
+                { source: "Preventive Care", target: "Gen Z Focus", weight: 7 },
+                { source: "Preventive Care", target: "Millennials", weight: 7 },
+                { source: "Indonesian Demographics", target: "Urban Pollution", weight: 6 },
+                { source: "Preventive Care", target: "Early Anti Aging", weight: 8 },
+                { source: "Routine Maintenance", target: "Affordable Care", weight: 5 },
+                { source: "Skin Barrier", target: "Routine Maintenance", weight: 6 },
+
+                { source: "Skin Sagging", target: "SMAS Weakening", weight: 9 },
+                { source: "Skin Sagging", target: "Collagen Depletion", weight: 9 },
+                { source: "Skin Sagging", target: "Fat Pad Atrophy", weight: 8 },
+                { source: "Collagen Depletion", target: "Elastin Loss", weight: 8 },
+                { source: "Photoaging", target: "UV Exposure", weight: 9 },
+                { source: "Photoaging", target: "Oxidative Stress", weight: 7 },
+                { source: "Fat Pad Atrophy", target: "Bone Resorption", weight: 6 },
+                { source: "UV Exposure", target: "Collagen Depletion", weight: 7 },
+                { source: "Gravity Impact", target: "Skin Sagging", weight: 5 },
+                { source: "Glycation", target: "Elastin Loss", weight: 4 },
+
+                { source: "Clinical Treatments", target: "Face Lifting", weight: 9 },
+                { source: "Face Lifting", target: "HIFU", weight: 9 },
+                { source: "Face Lifting", target: "Radiofrequency", weight: 8 },
+                { source: "Face Lifting", target: "Thread Lift", weight: 7 },
+                { source: "Clinical Treatments", target: "Dermal Fillers", weight: 6 },
+                { source: "Clinical Treatments", target: "Botulinum Toxin", weight: 6 },
+                { source: "Collagen Stimulators", target: "Microneedling", weight: 5 },
+                { source: "Retinoids", target: "Peptides", weight: 6 },
+                { source: "Hyaluronic Acid", target: "Collagen Stimulators", weight: 5 },
+
+                { source: "Home Devices", target: "EMS Technology", weight: 9 },
+                { source: "Home Devices", target: "Thermal Heat 38-42C", weight: 9 },
+                { source: "Face Sculpting", target: "Home Devices", weight: 9 },
+                { source: "EMS Technology", target: "Muscle Toning", weight: 8 },
+                { source: "EMS Technology", target: "ATP Production", weight: 7 },
+                { source: "Thermal Heat 38-42C", target: "Fibroblast Activation", weight: 8 },
+                { source: "Thermal Heat 38-42C", target: "Blood Circulation", weight: 7 },
+                { source: "Blood Circulation", target: "Lymphatic Drainage", weight: 6 },
+                { source: "Fibroblast Activation", target: "Neocollagenesis", weight: 8 },
+                { source: "Face Sculpting", target: "Daily Sculpting", weight: 7 },
+
+                { source: "Indonesian Demographics", target: "Skin Sagging", weight: 6 },
+                { source: "Millennials", target: "Clinical Treatments", weight: 7 },
+                { source: "Gen Z Focus", target: "Home Devices", weight: 6 },
+                { source: "Early Anti Aging", target: "Skin Sagging", weight: 5 },
+                { source: "Urban Pollution", target: "Oxidative Stress", weight: 7 },
+                { source: "Skin Sagging", target: "Face Lifting", weight: 9 },
+                { source: "Skin Sagging", target: "Face Sculpting", weight: 8 },
+                { source: "SMAS Weakening", target: "HIFU", weight: 8 },
+                { source: "Collagen Depletion", target: "Radiofrequency", weight: 7 },
+                { source: "Collagen Depletion", target: "Collagen Stimulators", weight: 6 },
+                { source: "Routine Maintenance", target: "Home Devices", weight: 7 },
+                { source: "Muscle Toning", target: "Face Lifting", weight: 5 },
+                { source: "Neocollagenesis", target: "Radiofrequency", weight: 6 },
+                { source: "Peptides", target: "Neocollagenesis", weight: 5 }
+            ]
+        };
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const colorPalette = {
+            1: "#F9A03F",
+            2: "#E74C3C",
+            3: "#3498DB",
+            4: "#2ECC71"
+        };
+
+        const foci = {
+            1: { x: width * 0.22, y: height * 0.35 },
+            2: { x: width * 0.52, y: height * 0.35 },
+            3: { x: width * 0.22, y: height * 0.65 },
+            4: { x: width * 0.52, y: height * 0.65 }
+        };
+
+        const svg = d3.select("#chart-container")
+            .append("svg")
+            .attr("viewBox", [0, 0, width, height]);
+
+        const g = svg.append("g");
+
+        const simulation = d3.forceSimulation(dataset.nodes)
+            .force("link", d3.forceLink(dataset.links)
+                .id(d => d.id)
+                .distance(d => d.source.group === d.target.group ? 80 : 320)
+                .strength(d => d.source.group === d.target.group ? 0.9 : 0.1)
+            )
+            .force("charge", d3.forceManyBody().strength(-750))
+            .force("x", d3.forceX(d => foci[d.group].x).strength(0.18))
+            .force("y", d3.forceY(d => foci[d.group].y).strength(0.18))
+            .force("collide", d3.forceCollide().radius(d => d.size + 35).iterations(10))
+            .alphaDecay(0.04);
+
+        const link = g.append("g")
+            .selectAll("path")
+            .data(dataset.links)
+            .join("path")
+            .attr("fill", "none")
+            .attr("stroke", d => {
+                const sourceNode = dataset.nodes.find(n => n.id === d.source.id || n.id === d.source);
+                return sourceNode ? colorPalette[sourceNode.group] : "#cccccc";
+            })
+            .attr("stroke-opacity", 0.3)
+            .attr("stroke-width", d => Math.max(1.2, d.weight * 0.45));
+
+        const node = g.append("g")
+            .selectAll("circle")
+            .data(dataset.nodes)
+            .join("circle")
+            .attr("class", "node-circle")
+            .attr("r", d => d.size)
+            .attr("fill", d => colorPalette[d.group])
+            .attr("opacity", 0.95);
+
+        const labels = g.append("g")
+            .selectAll("g")
+            .data(dataset.nodes)
+            .join("g");
+
+        labels.append("text")
+            .attr("class", "halo-text")
+            .text(d => d.id)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-size", d => Math.max(11, d.size * 0.45) + "px");
+
+        labels.append("text")
+            .attr("class", "front-text")
+            .text(d => d.id)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-size", d => Math.max(11, d.size * 0.45) + "px");
+
+        const maxRightBound = width - 380;
+
+        simulation.on("tick", () => {
+            link.attr("d", d => {
+                const dx = d.target.x - d.source.x;
+                const dy = d.target.y - d.source.y;
+                const dr = Math.sqrt(dx * dx + dy * dy) * 3;
+                return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+            });
+
+            node
+                .attr("cx", d => d.x = Math.max(d.size + 20, Math.min(maxRightBound - d.size, d.x)))
+                .attr("cy", d => d.y = Math.max(d.size + 20, Math.min(height - d.size - 20, d.y)));
+
+            labels.attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+    </script>
+</body>
+</html>

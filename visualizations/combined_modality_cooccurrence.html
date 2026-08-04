@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-occurrence of Combined Clinical Modalities</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+body { background: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
+#chart { width: 1000px; height: 600px; background: #ffffff; padding: 20px; }
+</style>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+const chart = echarts.init(document.getElementById('chart'));
+const option = {
+    title: {
+        text: 'Decision Support: Co-occurrence of Combined Clinical Modalities',
+        left: 'center',
+        top: 20,
+        textStyle: { color: '#0f172a', fontSize: 24, fontWeight: 'bold' }
+    },
+    color: ['#9B5DE5', '#F2A93B', '#FF6B6B'],
+    series: [
+        {
+            type: 'pie',
+            radius: ['20%', '55%'],
+            center: ['50%', '60%'],
+            roseType: 'area',
+            itemStyle: {
+                borderRadius: 16,
+                borderColor: '#ffffff',
+                borderWidth: 5,
+                shadowBlur: 20,
+                shadowColor: 'rgba(0,0,0,0.15)',
+                shadowOffsetY: 5
+            },
+            label: {
+                show: true,
+                formatter: '{val|{c}}\n{name|{b}}\n{sub|Clinical Studies}',
+                rich: {
+                    val: {
+                        fontSize: 42,
+                        fontWeight: '900',
+                        color: 'inherit',
+                        padding: [0, 0, 5, 0],
+                        textShadowBlur: 2,
+                        textShadowColor: 'rgba(0,0,0,0.1)'
+                    },
+                    name: {
+                        fontSize: 15,
+                        fontWeight: '800',
+                        color: '#0f172a',
+                        padding: [0, 0, 4, 0]
+                    },
+                    sub: {
+                        fontSize: 13,
+                        fontWeight: '600',
+                        color: '#64748b'
+                    }
+                }
+            },
+            labelLine: {
+                length: 40,
+                length2: 60,
+                lineStyle: { width: 3, type: 'solid', opacity: 0.8 }
+            },
+            data: [
+                { value: 31, name: 'Radiofrequency Combinations' },
+                { value: 12, name: 'HIFU Combinations' },
+                { value: 8, name: 'EMS and Thermal Combinations' }
+            ]
+        }
+    ]
+};
+chart.setOption(option);
+</script>
+</body>
+</html>

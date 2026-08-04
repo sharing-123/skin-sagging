@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modality to Mechanism to Clinical Claim Pathway</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+body {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+#chart {
+    width: 1400px;
+    height: 900px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+}
+</style>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+const chart = echarts.init(document.getElementById('chart'));
+const option = {
+    title: {
+        text: 'Decision Support Pathway: Modality to Mechanism to Clinical Claim',
+        left: 'center',
+        top: 15,
+        textStyle: { color: '#0f172a', fontSize: 26, fontWeight: 'bold' }
+    },
+    series: {
+        type: 'sankey',
+        layout: 'none',
+        layoutIterations: 32,
+        top: '15%',
+        bottom: '10%',
+        left: '5%',
+        right: '20%',
+        nodeGap: 70,
+        nodeWidth: 45,
+        itemStyle: { borderWidth: 0, borderRadius: 8 },
+        lineStyle: { color: 'source', curveness: 0.5, opacity: 0.35 },
+        label: {
+            show: true,
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: '#0f172a',
+            padding: [0, 0, 0, 15]
+        },
+        edgeLabel: {
+            show: true,
+            formatter: '{c} Studies',
+            fontSize: 15,
+            fontWeight: '900',
+            color: '#1e293b',
+            textBorderColor: '#ffffff',
+            textBorderWidth: 6
+        },
+        data: [
+            { name: 'EMS Device', itemStyle: { color: '#9B5DE5' } },
+            { name: 'Radiofrequency', itemStyle: { color: '#4ECDC4' } },
+            { name: 'HIFU Ultrasound', itemStyle: { color: '#F2A93B' } },
+            { name: 'Muscle Activation', itemStyle: { color: '#9B5DE5' } },
+            { name: 'Cellular ATP', itemStyle: { color: '#4ECDC4' } },
+            { name: 'Collagen Synthesis', itemStyle: { color: '#FF6B6B' } },
+            { name: 'Face Sculpting', itemStyle: { color: '#0f172a' } },
+            { name: 'Tissue Tightening', itemStyle: { color: '#0f172a' } },
+            { name: 'Skin Rejuvenation', itemStyle: { color: '#0f172a' } }
+        ],
+        links: [
+            { source: 'EMS Device', target: 'Muscle Activation', value: 14 },
+            { source: 'EMS Device', target: 'Cellular ATP', value: 2, edgeLabel: { formatter: '{c} Studies\n\n\n' } },
+            { source: 'EMS Device', target: 'Collagen Synthesis', value: 1, edgeLabel: { formatter: '\n\n{c} Studies' } },
+            { source: 'Radiofrequency', target: 'Muscle Activation', value: 6, edgeLabel: { formatter: '\n\n\n{c} Studies' } },
+            { source: 'Radiofrequency', target: 'Cellular ATP', value: 3 },
+            { source: 'Radiofrequency', target: 'Collagen Synthesis', value: 2 },
+            { source: 'HIFU Ultrasound', target: 'Collagen Synthesis', value: 1 },
+            { source: 'Muscle Activation', target: 'Face Sculpting', value: 4 },
+            { source: 'Muscle Activation', target: 'Tissue Tightening', value: 4, edgeLabel: { formatter: '{c} Studies\n\n' } },
+            { source: 'Cellular ATP', target: 'Skin Rejuvenation', value: 5, edgeLabel: { formatter: '\n\n{c} Studies' } },
+            { source: 'Cellular ATP', target: 'Tissue Tightening', value: 1 },
+            { source: 'Collagen Synthesis', target: 'Skin Rejuvenation', value: 4 },
+            { source: 'Collagen Synthesis', target: 'Tissue Tightening', value: 1 }
+        ]
+    }
+};
+chart.setOption(option);
+</script>
+</body>
+</html>

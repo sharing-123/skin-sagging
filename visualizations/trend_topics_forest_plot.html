@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Topics Forest Plot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        #main-wrapper {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            max-width: 1350px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.05);
+        }
+
+        #chart-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #sidebar {
+            width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .info-card h3 {
+            margin: 0 0 16px 0;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #475569;
+            text-align: justify;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .legend-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .size-legend-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 25px;
+            margin-top: 10px;
+            padding-bottom: 5px;
+        }
+
+        .size-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .size-circle {
+            border: 1px solid #94a3b8;
+            border-radius: 50%;
+        }
+
+        .size-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-line {
+            stroke: #f1f5f9;
+            stroke-dasharray: 4;
+        }
+
+        .axis-text {
+            font-size: 12px;
+            fill: #64748b;
+            font-weight: 600;
+        }
+
+        .y-axis .tick text {
+            text-transform: capitalize;
+            font-weight: 700;
+            fill: #1e293b;
+            font-size: 12.5px;
+        }
+
+        .domain {
+            display: none;
+        }
+
+        .row-annotation {
+            font-size: 11.5px;
+            font-weight: 600;
+            fill: #64748b;
+        }
+
+        .row-annotation-bold {
+            fill: #0f172a;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-wrapper">
+        <div id="chart-container">
+            <div id="svg-area"></div>
+        </div>
+
+        <div id="sidebar">
+            <div class="info-card">
+                <h3>Research Category</h3>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #F2A93B;"></div>
+                    <div class="legend-text">Indonesia and Asia Clinic Treatment Trends</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #4ECDC4;"></div>
+                    <div class="legend-text">Skin Sagging Mechanism</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #FF6B6B;"></div>
+                    <div class="legend-text">Clinic Treatments and Recommended Products</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #9B5DE5;"></div>
+                    <div class="legend-text">EMS and Heat Device Mechanism</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Citation Frequency</h3>
+                <div class="size-legend-container">
+                    <div class="size-item">
+                        <div class="size-circle" style="width: 14px; height: 14px;"></div>
+                        <div class="size-label">20</div>
+                    </div>
+                    <div class="size-item">
+                        <div class="size-circle" style="width: 24px; height: 24px;"></div>
+                        <div class="size-label">60</div>
+                    </div>
+                    <div class="size-item">
+                        <div class="size-circle" style="width: 36px; height: 36px;"></div>
+                        <div class="size-label">150</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Key Insights</h3>
+                <p>
+                    Clinical treatments display the highest density of literature specifically for radiofrequency and skin tightening procedures. The visual mapping indicates a strong upward shift toward early preventive treatments starting firmly in the past decade.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>Timeline Summary</h3>
+                <p>
+                    The plotted median years reveal a continuous evolution in aesthetic research. Recent focus has pivoted heavily toward neuromuscular electrical stimulation and home based thermal devices showing major growth from 2020 onward.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {"phrase":"tightening","brief_point":"Clinic Treatments and Recommended Products","frequency":79,"year_min":2003,"year_max":2026,"year_median":2016},
+            {"phrase":"skin tightening","brief_point":"Clinic Treatments and Recommended Products","frequency":63,"year_min":2005,"year_max":2026,"year_median":2016},
+            {"phrase":"electrical stimulation","brief_point":"EMS and Heat Device Mechanism","frequency":23,"year_min":2001,"year_max":2026,"year_median":2016},
+            {"phrase":"skin (clinic)","brief_point":"Clinic Treatments and Recommended Products","frequency":109,"year_min":2003,"year_max":2026,"year_median":2017},
+            {"phrase":"device","brief_point":"Clinic Treatments and Recommended Products","frequency":37,"year_min":2006,"year_max":2026,"year_median":2017},
+            {"phrase":"treatment (clinic)","brief_point":"Clinic Treatments and Recommended Products","frequency":54,"year_min":2006,"year_max":2026,"year_median":2018},
+            {"phrase":"radiofrequency","brief_point":"Clinic Treatments and Recommended Products","frequency":151,"year_min":2003,"year_max":2026,"year_median":2019},
+            {"phrase":"ultrasound","brief_point":"Clinic Treatments and Recommended Products","frequency":43,"year_min":2009,"year_max":2026,"year_median":2019},
+            {"phrase":"face","brief_point":"Clinic Treatments and Recommended Products","frequency":34,"year_min":2003,"year_max":2026,"year_median":2019},
+            {"phrase":"rhinoplasty","brief_point":"Indonesia and Asia Clinic Treatment Trends","frequency":21,"year_min":1998,"year_max":2026,"year_median":2019},
+            {"phrase":"asian","brief_point":"Indonesia and Asia Clinic Treatment Trends","frequency":27,"year_min":2010,"year_max":2026,"year_median":2020},
+            {"phrase":"neuromuscular","brief_point":"EMS and Heat Device Mechanism","frequency":19,"year_min":2009,"year_max":2026,"year_median":2020},
+            {"phrase":"neuromuscular electrical","brief_point":"EMS and Heat Device Mechanism","frequency":18,"year_min":2009,"year_max":2026,"year_median":2020},
+            {"phrase":"neuromuscular electrical stimulation","brief_point":"EMS and Heat Device Mechanism","frequency":18,"year_min":2009,"year_max":2026,"year_median":2020},
+            {"phrase":"electrical","brief_point":"EMS and Heat Device Mechanism","frequency":29,"year_min":2001,"year_max":2026,"year_median":2021},
+            {"phrase":"stimulation","brief_point":"EMS and Heat Device Mechanism","frequency":29,"year_min":2001,"year_max":2026,"year_median":2021},
+            {"phrase":"facial (clinic)","brief_point":"Clinic Treatments and Recommended Products","frequency":48,"year_min":2003,"year_max":2026,"year_median":2022},
+            {"phrase":"monopolar","brief_point":"Clinic Treatments and Recommended Products","frequency":41,"year_min":2005,"year_max":2026,"year_median":2022},
+            {"phrase":"rejuvenation","brief_point":"Clinic Treatments and Recommended Products","frequency":31,"year_min":2003,"year_max":2026,"year_median":2022},
+            {"phrase":"muscle","brief_point":"EMS and Heat Device Mechanism","frequency":17,"year_min":2008,"year_max":2026,"year_median":2022},
+            {"phrase":"skin","brief_point":"Skin Sagging Mechanism","frequency":32,"year_min":2002,"year_max":2026,"year_median":2023},
+            {"phrase":"monopolar radiofrequency","brief_point":"Clinic Treatments and Recommended Products","frequency":32,"year_min":2005,"year_max":2026,"year_median":2023},
+            {"phrase":"reconstruction","brief_point":"Indonesia and Asia Clinic Treatment Trends","frequency":19,"year_min":2003,"year_max":2025,"year_median":2023},
+            {"phrase":"breast","brief_point":"Indonesia and Asia Clinic Treatment Trends","frequency":19,"year_min":1992,"year_max":2026,"year_median":2024},
+            {"phrase":"photoaging","brief_point":"Skin Sagging Mechanism","frequency":19,"year_min":2013,"year_max":2026,"year_median":2025}
+        ];
+
+        const colors = {
+            "Indonesia and Asia Clinic Treatment Trends": "#F2A93B",
+            "Skin Sagging Mechanism": "#4ECDC4",
+            "Clinic Treatments and Recommended Products": "#FF6B6B",
+            "EMS and Heat Device Mechanism": "#9B5DE5"
+        };
+
+        const width = 1000;
+        const height = 850;
+
+        const margin = { top: 70, right: 200, bottom: 50, left: 260 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+
+        const svg = d3.select("#svg-area")
+            .append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .style("width", "100%")
+            .style("height", "100%");
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const xMin = d3.min(data, d => d.year_min) - 1;
+        const xMax = 2027;
+        const x = d3.scaleLinear()
+            .domain([xMin, xMax])
+            .range([0, innerWidth]);
+
+        const y = d3.scaleBand()
+            .domain(data.map(d => d.phrase))
+            .range([0, innerHeight])
+            .padding(0.5);
+
+        const maxFreq = d3.max(data, d => d.frequency);
+        const rScale = d3.scaleSqrt()
+            .domain([0, maxFreq])
+            .range([4, 18]);
+
+        g.append("g")
+            .attr("class", "grid")
+            .attr("transform", `translate(0, ${innerHeight})`)
+            .call(d3.axisBottom(x)
+                .tickSize(-innerHeight)
+                .tickFormat(d3.format("d"))
+                .ticks(8)
+            )
+            .selectAll("line")
+            .attr("class", "grid-line");
+
+        g.select(".grid .domain").remove();
+        g.selectAll(".grid text").attr("class", "axis-text").attr("dy", "1.2em");
+
+        const yAxis = g.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y)
+                .tickSize(0)
+                .tickFormat(d => d.split(" (")[0])
+            );
+
+        yAxis.select(".domain").remove();
+        yAxis.selectAll("text").attr("dx", "-10px");
+
+        const rows = g.selectAll(".row-group")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("class", "row-group")
+            .attr("transform", d => `translate(0, ${y(d.phrase) + y.bandwidth() / 2})`);
+
+        rows.append("line")
+            .attr("x1", d => x(d.year_min))
+            .attr("x2", d => x(d.year_max))
+            .attr("y1", 0)
+            .attr("y2", 0)
+            .attr("stroke", "#cbd5e1")
+            .attr("stroke-width", 2.5)
+            .attr("stroke-linecap", "round");
+
+        rows.append("line")
+            .attr("x1", d => x(d.year_min))
+            .attr("x2", d => x(d.year_min))
+            .attr("y1", -4)
+            .attr("y2", 4)
+            .attr("stroke", "#94a3b8")
+            .attr("stroke-width", 2);
+
+        rows.append("line")
+            .attr("x1", d => x(d.year_max))
+            .attr("x2", d => x(d.year_max))
+            .attr("y1", -4)
+            .attr("y2", 4)
+            .attr("stroke", "#94a3b8")
+            .attr("stroke-width", 2);
+
+        rows.append("circle")
+            .attr("cx", d => x(d.year_median))
+            .attr("cy", 0)
+            .attr("r", d => rScale(d.frequency))
+            .attr("fill", d => colors[d.brief_point])
+            .attr("stroke", "#ffffff")
+            .attr("stroke-width", 1.5);
+
+        rows.append("text")
+            .attr("x", innerWidth + 15)
+            .attr("y", 4)
+            .attr("class", "row-annotation")
+            .html(d => `<tspan class="row-annotation-bold">${d.frequency}</tspan> citations (${d.year_min} to ${d.year_max})`);
+
+        svg.append("text")
+            .attr("x", margin.left)
+            .attr("y", 25)
+            .attr("font-size", "18px")
+            .attr("font-weight", "800")
+            .attr("fill", "#0f172a")
+            .text("Trend Topics Mapped to the Four Research Questions");
+
+        svg.append("text")
+            .attr("x", margin.left)
+            .attr("y", 45)
+            .attr("font-size", "12.5px")
+            .attr("font-weight", "500")
+            .attr("fill", "#64748b")
+            .text("Bubble position shows median publication year. Line represents historical span.");
+
+        svg.append("text")
+            .attr("x", margin.left + innerWidth / 2)
+            .attr("y", height - 10)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "13px")
+            .attr("font-weight", "700")
+            .attr("fill", "#475569")
+            .text("Publication Year");
+    </script>
+</body>
+</html>
